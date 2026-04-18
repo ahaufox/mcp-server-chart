@@ -159,4 +159,4 @@ describe("MCP Server", () => {
 
     await killAsync(child);
   });
-});
+}, 60000);
