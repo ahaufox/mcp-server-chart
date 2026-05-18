@@ -39,7 +39,7 @@ const { values } = parseArgs({
 
 // Display help information if requested
 if (values.help) {
-  console.log(`
+  logger.info(`
 MCP Server Chart CLI
 
 Options:
@@ -63,15 +63,19 @@ if (transport === "sse") {
   // Use provided endpoint or default to "/sse" for SSE
   const endpoint = values.endpoint || "/sse";
   const host = values.host || "localhost";
-  runSSEServer(host, port, endpoint).catch(console.error);
+  runSSEServer(host, port, endpoint).catch((err) =>
+    logger.error("SSE server error", err),
+  );
 } else if (transport === "streamable") {
   logger.setIsStdio(false);
   const port = Number.parseInt(values.port as string, 10);
   // Use provided endpoint or default to "/mcp" for streamable
   const endpoint = values.endpoint || "/mcp";
   const host = values.host || "localhost";
-  runHTTPStreamableServer(host, port, endpoint).catch(console.error);
+  runHTTPStreamableServer(host, port, endpoint).catch((err) =>
+    logger.error("Streamable server error", err),
+  );
 } else {
   logger.setIsStdio(true);
-  runStdioServer().catch(console.error);
+  runStdioServer().catch((err) => logger.error("Stdio server error", err));
 }
