@@ -39,7 +39,9 @@
 | `generate_treemap_chart` | 矩形树图，展示层级数据（矩形面积代表数值） |
 | `generate_venn_chart` | 韦恩图，展示集合间的关系（交集、并集、差集） |
 | `generate_violin_chart` | 小提琴图，展示数据分布（箱线图 + 密度图） |
+| `generate_waterfall_chart` | 瀑布图，展示顺序引入的正/负值的累积效果 |
 | `generate_word_cloud_chart` | 词云图，展示文本数据中的词频 |
+| `generate_spreadsheet` | 电子表格/透视表，展示表格数据或交叉汇总分析 |
 
 > [!NOTE]
 > 以上地图类图表（`district-map`, `path-map`, `pin-map`）使用[高德地图服务](https://lbs.amap.com/)，目前仅支持中国地区的地图生成。

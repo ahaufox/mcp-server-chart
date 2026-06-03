@@ -1,6 +1,16 @@
+import http from "node:http";
+import https from "node:https";
 import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import axios from "axios";
 import { getServiceIdentifier, getVisRequestServer } from "./env";
+
+const httpClient = axios.create({
+  httpAgent: new http.Agent({ keepAlive: true }),
+  httpsAgent: new https.Agent({ keepAlive: true }),
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 /**
  * Generate a chart URL using the provided configuration.
@@ -16,19 +26,11 @@ export async function generateChartUrl(
 ): Promise<string> {
   const url = getVisRequestServer();
 
-  const response = await axios.post(
-    url,
-    {
-      type,
-      ...options,
-      source: "mcp-server-chart",
-    },
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
-  );
+  const response = await httpClient.post(url, {
+    type,
+    ...options,
+    source: "mcp-server-chart",
+  });
   const { success, errorMessage, resultObj } = response.data;
 
   if (!success) {
@@ -59,20 +61,12 @@ export async function generateMap(
 ): Promise<ResponseResult> {
   const url = getVisRequestServer();
 
-  const response = await axios.post(
-    url,
-    {
-      serviceId: getServiceIdentifier(),
-      tool,
-      input,
-      source: "mcp-server-chart",
-    },
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    },
-  );
+  const response = await httpClient.post(url, {
+    serviceId: getServiceIdentifier(),
+    tool,
+    input,
+    source: "mcp-server-chart",
+  });
   const { success, errorMessage, resultObj } = response.data;
 
   if (!success) {

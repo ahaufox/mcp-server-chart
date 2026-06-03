@@ -39,7 +39,7 @@ describe("MCP Server", () => {
     await client.connect(transport);
     const listTools = await client.listTools();
 
-    expect(listTools.tools.length).toBe(25);
+    expect(listTools.tools.length).toBe(27);
 
     const spec = {
       type: "line",
@@ -60,7 +60,7 @@ describe("MCP Server", () => {
 
     expect(res._meta).toEqual({
       description:
-        "This is the chart's spec and configuration, which can be renderred to corresponding chart by AntV GPT-Vis chart components.",
+        "The content returned by MCP is the remote image URL of the visualization chart, which can be rendered using Markdown or HTML image tags. The _meta.spec content corresponds to the chart's configuration and spec, which can be rendered using AntV GPT-Vis chart components.",
       spec: spec,
     });
 
@@ -82,7 +82,7 @@ describe("MCP Server", () => {
     await client.connect(transport);
     const listTools = await client.listTools();
 
-    expect(listTools.tools.length).toBe(25);
+    expect(listTools.tools.length).toBe(27);
 
     const spec = {
       type: "line",
@@ -103,7 +103,7 @@ describe("MCP Server", () => {
 
     expect(res._meta).toEqual({
       description:
-        "This is the chart's spec and configuration, which can be renderred to corresponding chart by AntV GPT-Vis chart components.",
+        "The content returned by MCP is the remote image URL of the visualization chart, which can be rendered using Markdown or HTML image tags. The _meta.spec content corresponds to the chart's configuration and spec, which can be rendered using AntV GPT-Vis chart components.",
       spec: spec,
     });
 
@@ -129,7 +129,7 @@ describe("MCP Server", () => {
     await client.connect(transport);
     const listTools = await client.listTools();
 
-    expect(listTools.tools.length).toBe(25);
+    expect(listTools.tools.length).toBe(27);
 
     const spec = {
       type: "line",
@@ -150,7 +150,7 @@ describe("MCP Server", () => {
 
     expect(res._meta).toEqual({
       description:
-        "This is the chart's spec and configuration, which can be renderred to corresponding chart by AntV GPT-Vis chart components.",
+        "The content returned by MCP is the remote image URL of the visualization chart, which can be rendered using Markdown or HTML image tags. The _meta.spec content corresponds to the chart's configuration and spec, which can be rendered using AntV GPT-Vis chart components.",
       spec: spec,
     });
 

@@ -31,8 +31,19 @@ const CHART_TYPE_MAP = {
   generate_treemap_chart: "treemap",
   generate_venn_chart: "venn",
   generate_violin_chart: "violin",
+  generate_waterfall_chart: "waterfall",
   generate_word_cloud_chart: "word-cloud",
+  generate_spreadsheet: "spreadsheet",
 } as const;
+
+// Pre-compile Zod schemas at module load time to avoid recompiling on every request.
+const COMPILED_SCHEMA_CACHE = new Map<string, z.ZodObject<z.ZodRawShape>>();
+for (const chartType of Object.values(CHART_TYPE_MAP)) {
+  const schema = Charts[chartType as keyof typeof Charts]?.schema;
+  if (schema) {
+    COMPILED_SCHEMA_CACHE.set(chartType, z.object(schema));
+  }
+}
 
 /**
  * Call a tool to generate a chart based on the provided name and arguments.
@@ -51,12 +62,11 @@ export async function callTool(tool: string, args: object = {}) {
 
   try {
     // Validate input using Zod before sending to API.
-    // Select the appropriate schema based on the chart type.
-    const schema = Charts[chartType].schema;
-
-    if (schema) {
+    // Use pre-compiled schema from cache to avoid recompiling on every call.
+    const compiledSchema = COMPILED_SCHEMA_CACHE.get(chartType);
+    if (compiledSchema) {
       // Use safeParse instead of parse and try-catch.
-      const result = z.object(schema).safeParse(args);
+      const result = compiledSchema.safeParse(args);
       if (!result.success) {
         logger.error(`Invalid parameters: ${result.error.message}`);
         throw new McpError(
@@ -73,7 +83,6 @@ export async function callTool(tool: string, args: object = {}) {
     ].includes(tool);
 
     if (isMapChartTool) {
-      // For map charts, we use the generateMap function, and return the mcp result.
       const { metadata, ...result } = await generateMap(tool, args);
       return result;
     }
@@ -90,21 +99,24 @@ export async function callTool(tool: string, args: object = {}) {
       ],
       _meta: {
         description:
-          "This is the chart's spec and configuration, which can be renderred to corresponding chart by AntV GPT-Vis chart components.",
+          "The content returned by MCP is the remote image URL of the visualization chart, which can be rendered using Markdown or HTML image tags. The _meta.spec content corresponds to the chart's configuration and spec, which can be rendered using AntV GPT-Vis chart components.",
         spec: { type: chartType, ...args },
       },
     };
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  } catch (error: any) {
-    logger.error(
-      `Failed to generate chart: ${error.message || "Unknown error"}.`,
-    );
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    logger.error(`Failed to generate chart: ${message}.`);
     if (error instanceof McpError) throw error;
     if (error instanceof ValidateError)
       throw new McpError(ErrorCode.InvalidParams, error.message);
-    throw new McpError(
-      ErrorCode.InternalError,
-      `Failed to generate chart: ${error?.message || "Unknown error."}`,
-    );
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Failed to generate chart: ${message}. Please check that the data matches the expected format for this chart type.`,
+        },
+      ],
+      isError: true,
+    };
   }
 }
