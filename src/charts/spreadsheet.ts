@@ -1,3 +1,7 @@
+/**
+ * Based on @antv/mcp-server-chart
+ * @see https://github.com/antvis/mcp-server-chart
+ */
 import { z } from "zod";
 import { zodToJsonSchema } from "../utils";
 import { HeightSchema, WidthSchema } from "./base";

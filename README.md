@@ -1,10 +1,10 @@
 # MCP Server Chart
 
-基于 [AntV](https://github.com/antvis) 的 MCP (Model Context Protocol) 图表生成服务器，支持 25+ 种图表类型，可通过 MCP 协议进行**图表生成**和**数据分析**。
+基于 [AntV](https://github.com/antvis) 的 MCP (Model Context Protocol) 图表生成服务器，支持 27+ 种图表类型，可通过 MCP 协议进行**图表生成**和**数据分析**。
 
 ## ✨ 特性
 
-- **25+ 图表类型**: 覆盖统计图表、关系图、地图、思维导图等
+- **27+ 图表类型**: 覆盖统计图表、关系图、地图、思维导图等
 - **三种传输模式**: 支持 stdio / SSE / Streamable HTTP 三种 MCP 传输协议
 - **Zod 输入校验**: 所有图表工具均使用 Zod Schema 进行参数校验，提供清晰的错误提示
 - **环境变量配置**: 支持自定义图表渲染服务地址、工具开关等

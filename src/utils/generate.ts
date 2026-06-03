@@ -1,3 +1,7 @@
+/**
+ * Based on @antv/mcp-server-chart
+ * @see https://github.com/antvis/mcp-server-chart
+ */
 import http from "node:http";
 import https from "node:https";
 import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";

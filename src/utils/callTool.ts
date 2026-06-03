@@ -1,3 +1,7 @@
+/**
+ * Based on @antv/mcp-server-chart
+ * @see https://github.com/antvis/mcp-server-chart
+ */
 import { ErrorCode, McpError } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import * as Charts from "../charts";
