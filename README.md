@@ -1,5 +1,8 @@
 # MCP Server Chart
 
+> [!NOTE]
+> 本项目是 [mcp-gateway](https://github.com/ahaufox/mcp-gateway) (MCP 聚合网关) 的子项目之一，旨在提供基于 AntV 的图表生成与数据分析 MCP 服务器。
+
 基于 [AntV](https://github.com/antvis) 的 MCP (Model Context Protocol) 图表生成服务器，支持 27+ 种图表类型，可通过 MCP 协议进行**图表生成**和**数据分析**。
 
 ## ✨ 特性
